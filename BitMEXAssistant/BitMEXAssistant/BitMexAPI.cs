@@ -37,10 +37,8 @@ namespace BitMEX
             this.apiKey = bitmexKey;
             this.apiSecret = bitmexSecret;
             this.rateLimit = rateLimit;
-            if(!RealNetwork)
-            {
+            if(!RealNetwork)            
                 this.domain = testdomain;
-            }
         }
 
         #region API Connector - Don't touch
@@ -51,7 +49,7 @@ namespace BitMEX
 
             StringBuilder b = new StringBuilder();
             foreach (var item in param)
-                b.Append(string.Format("&{0}={1}", item.Key, WebUtility.UrlEncode(item.Value)));
+                b.Append($"&{item.Key}={WebUtility.UrlEncode(item.Value)}");
 
             try { return b.ToString().Substring(1); }
             catch (Exception) { return ""; }
@@ -64,7 +62,7 @@ namespace BitMEX
 
             var entries = new List<string>();
             foreach (var item in param)
-                entries.Add(string.Format("\"{0}\":\"{1}\"", item.Key, item.Value));
+                entries.Add($"\"{item.Key}\":\"{item.Value}\"");
 
             return "{" + string.Join(",", entries) + "}";
         }
@@ -110,7 +108,9 @@ namespace BitMEX
         private string Query(string method, string function, Dictionary<string, string> param = null, bool auth = false, bool json = false)
         {
             string paramData = json ? BuildJSON(param) : BuildQueryData(param);
-            string url = "/api/v1" + function + ((method == "GET" && paramData != "") ? "?" + paramData : "");
+            string queryString = ((method == "GET" && paramData != "") ? $"?{paramData}" : "");
+
+            string url = $"/api/v1{function}{queryString}";
             string postData = (method != "GET") ? paramData : "";
 
             HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(domain + url);
@@ -238,7 +238,7 @@ namespace BitMEX
                 RetryAttemptCount++;
                 if (RetryAttemptCount == MaxRetries)
                 {
-                    errors.Add("Max rety attempts of " + MaxRetries.ToString() + " reached.");
+                    errors.Add($"Max rety attempts of {MaxRetries.ToString()} reached.");
                     break;
                 }
             }
@@ -282,7 +282,7 @@ namespace BitMEX
                 RetryAttemptCount++;
                 if (RetryAttemptCount == MaxRetries)
                 {
-                    errors.Add("Max rety attempts of " + MaxRetries.ToString() + " reached.");
+                    errors.Add($"Max rety attempts of {MaxRetries.ToString()} reached.");
                     break;
                 }
             }
@@ -326,7 +326,7 @@ namespace BitMEX
                 RetryAttemptCount++;
                 if (RetryAttemptCount == MaxRetries)
                 {
-                    errors.Add("Max rety attempts of " + MaxRetries.ToString() + " reached.");
+                    errors.Add($"Max rety attempts of {MaxRetries.ToString()} reached.");
                     break;
                 }
             }
@@ -429,7 +429,7 @@ namespace BitMEX
                 RetryAttemptCount++;
                 if (RetryAttemptCount == MaxRetries)
                 {
-                    errors.Add("Max rety attempts of " + MaxRetries.ToString() + " reached.");
+                    errors.Add($"Max rety attempts of {MaxRetries.ToString()} reached.");
                     break;
                 }
             }
@@ -465,7 +465,7 @@ namespace BitMEX
                 RetryAttemptCount++;
                 if (RetryAttemptCount == MaxRetries)
                 {
-                    errors.Add("Max rety attempts of " + MaxRetries.ToString() + " reached.");
+                    errors.Add($"Max rety attempts of {MaxRetries.ToString()} reached.");
                     break;
                 }
             }
@@ -488,7 +488,7 @@ namespace BitMEX
                 RetryAttemptCount++;
                 if (RetryAttemptCount == MaxRetries)
                 {
-                    errors.Add("Max rety attempts of " + MaxRetries.ToString() + " reached.");
+                    errors.Add($"Max rety attempts of {MaxRetries.ToString()} reached.");
                     break;
                 }
             }
@@ -510,7 +510,7 @@ namespace BitMEX
                 RetryAttemptCount++;
                 if (RetryAttemptCount == MaxRetries)
                 {
-                    errors.Add("Max rety attempts of " + MaxRetries.ToString() + " reached.");
+                    errors.Add($"Max rety attempts of {MaxRetries.ToString()} reached.");
                     break;
                 }
             }
@@ -532,7 +532,7 @@ namespace BitMEX
                 RetryAttemptCount++;
                 if (RetryAttemptCount == MaxRetries)
                 {
-                    errors.Add("Max rety attempts of " + MaxRetries.ToString() + " reached.");
+                    errors.Add($"Max rety attempts of {MaxRetries.ToString()} reached.");
                     break;
                 }
             }
@@ -556,7 +556,7 @@ namespace BitMEX
                 RetryAttemptCount++;
                 if (RetryAttemptCount == MaxRetries)
                 {
-                    errors.Add("Max rety attempts of " + MaxRetries.ToString() + " reached.");
+                    errors.Add($"Max rety attempts of {MaxRetries.ToString()} reached.");
                     break;
                 }
             }
@@ -585,7 +585,7 @@ namespace BitMEX
                 RetryAttemptCount++;
                 if (RetryAttemptCount == MaxRetries)
                 {
-                    errors.Add("Max rety attempts of " + MaxRetries.ToString() + " reached.");
+                    errors.Add($"Max rety attempts of {MaxRetries.ToString()} reached.");
                     break;
                 }
             }
@@ -614,7 +614,7 @@ namespace BitMEX
                 RetryAttemptCount++;
                 if (RetryAttemptCount == MaxRetries)
                 {
-                    errors.Add("Max rety attempts of " + MaxRetries.ToString() + " reached.");
+                    errors.Add($"Max rety attempts of {MaxRetries.ToString()} reached.");
                     break;
                 }
             }
@@ -716,7 +716,7 @@ namespace BitMEX
                 RetryAttemptCount++;
                 if (RetryAttemptCount == MaxRetries)
                 {
-                    errors.Add("Max rety attempts of " + MaxRetries.ToString() + " reached.");
+                    errors.Add($"Max rety attempts of {MaxRetries.ToString()} reached.");
                     break;
                 }
             }
